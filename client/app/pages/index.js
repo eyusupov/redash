@@ -1,4 +1,4 @@
-import { flatten } from "lodash";
+import { each, flatten } from "lodash";
 
 import adminJobsRoutes from "./admin/Jobs";
 import adminOutdatedQueriesRoutes from "./admin/OutdatedQueries";
@@ -25,29 +25,42 @@ import organizationSettingsRoutes from "./settings/OrganizationSettings";
 import userProfileRoutes from "./users/UserProfile";
 import usersListRoutes from "./users/UsersList";
 
-export default flatten([
-  adminJobsRoutes,
-  adminOutdatedQueriesRoutes,
-  adminSystemStatusRoutes,
-  alertRoutes,
-  alertsListRoutes,
-  dashboardListRoutes,
-  dashboardRoutes,
-  publicDashboardRoutes,
-  dataSourcesListRoutes,
-  editDataSourceRoutes,
-  destinationsListRoutes,
-  editDestinationRoutes,
-  groupsListRoutes,
-  groupsDataSourcesRoutes,
-  groupsMembersRoutes,
-  homeRoutes,
-  queriesListRoutes,
-  queryViewRoutes,
-  querySourceRoutes,
-  visualizationEmbedRoutes,
-  querySnippetsRoutes,
-  organizationSettingsRoutes,
-  usersListRoutes,
-  userProfileRoutes,
-]);
+const registeredRoutes = {}
+
+each(
+  flatten([
+    adminJobsRoutes,
+    adminOutdatedQueriesRoutes,
+    adminSystemStatusRoutes,
+    alertRoutes,
+    alertsListRoutes,
+    dashboardListRoutes,
+    dashboardRoutes,
+    publicDashboardRoutes,
+    dataSourcesListRoutes,
+    editDataSourceRoutes,
+    destinationsListRoutes,
+    editDestinationRoutes,
+    groupsListRoutes,
+    groupsDataSourcesRoutes,
+    groupsMembersRoutes,
+    homeRoutes,
+    queriesListRoutes,
+    queryViewRoutes,
+    querySourceRoutes,
+    visualizationEmbedRoutes,
+    querySnippetsRoutes,
+    organizationSettingsRoutes,
+    usersListRoutes,
+    userProfileRoutes,
+  ]),
+  registerRoute
+)
+
+export function registerRoute(route) {
+  registeredRoutes[route.path] = route;
+}
+
+export default function routes() {
+  return Object.values(registeredRoutes)
+};

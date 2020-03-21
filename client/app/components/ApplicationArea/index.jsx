@@ -33,5 +33,5 @@ export default function ApplicationArea() {
     return <ErrorMessage error={unhandledError} />;
   }
 
-  return <Router routes={routes} onRouteChange={setCurrentRoute} />;
+  return <Router routes={routes()} onRouteChange={setCurrentRoute} />;
 }
